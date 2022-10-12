@@ -1,0 +1,42 @@
+{
+  "extends": "@rocketseat/eslint-config/react",
+  "plugins": ["import-helpers"],
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "arrowParens": "avoid",
+        "semi": false,
+        "endOfLine": "auto"
+      }
+    ],
+    "react/jsx-no-useless-fragment": "warn",
+    "func-names": "warn",
+    "no-param-reassign": "warn",
+    "no-unused-vars": "warn",
+    "prefer-const": "warn",
+    "no-restricted-syntax": "warn",
+    "object-shorthand": "warn",
+    "react/prop-types": "off",
+    "react/jsx-props-no-spreading": "off",
+    "implicit-arrow-linebreak": "off",
+    "react/jsx-curly-newline": "off",
+    "default-param-last": "off",
+    "no-use-before-define": "off",
+    "arrow-parens": "off",
+    "arrow-body-style": "off",
+    "import/prefer-default-export": "off",
+    "no-console": "off",
+    "comma-dangle": "off",
+    "react/button-has-type": "off",
+    "import-helpers/order-imports": [
+      "warn",
+      {
+        "newlinesBetween": "always", // new line between groups
+        "groups": ["/^react/", "module", ["parent", "sibling", "index"]],
+        "alphabetize": { "order": "asc", "ignoreCase": true }
+      }
+    ]
+  }
+}
