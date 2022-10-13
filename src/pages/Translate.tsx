@@ -1,29 +1,46 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { FETCH } from 'api/fetch'
 import { DataList } from 'components/DataList'
 import { Flex } from 'components/Flex'
 import { TextArea } from 'components/TextArea'
 import { pallete } from 'styles/pallete'
-import { languages } from 'utils/languages'
+
+interface Language {
+  name: string
+  code: string
+  native_name: string
+  en_name: string
+}
 
 export const Translate: React.FC = () => {
+  const url =
+    'https://script.google.com/macros/s/AKfycbyIvIhlEIijO0sJMXIUCc28p-Jt6aBJj_IBS2zUrwvrcQ_wZHf0KFJGMYlJeJd98U4I/exec'
+  const [languages, setLanguages] = useState<Language[]>([])
+
+  useEffect(() => {
+    async function fetchData() {
+      return await FETCH.get<Language[]>({ url, simple: true })
+    }
+    fetchData().then(res => setLanguages(res))
+  }, [])
+
   async function translate(text) {
-    const url =
-      'https://script.google.com/macros/s/AKfycbzGcpW4dQGRYaWLbFynM_3S-KQxS3VwbS4Osan3r0HZW9O_AffV5bizJOVyra9IA-72/exec'
     const sl = document.getElementById('source-lang-input') as HTMLInputElement
     const tl = document.getElementById('target-lang-input') as HTMLInputElement
     const translated = document.getElementById('translated') as HTMLInputElement
+    const sourceLang = languages.find(lang => lang.name === sl.value).code
+    const targetLang = languages.find(lang => lang.name === tl.value).code
+
     const payload = {
-      source_lang: languages[sl.value],
-      target_lang: languages[tl.value],
+      source_lang: sourceLang,
+      target_lang: targetLang,
       text,
     }
 
     const response: any = await FETCH.post({
       url,
       payload,
-      includeCredentials: false,
       simple: true,
     })
 
@@ -37,13 +54,13 @@ export const Translate: React.FC = () => {
           id="source-lang"
           object={languages}
           style={InputLeft}
-          defaultValue="Portuguese (Brazil)"
+          defaultValue="Português"
         />
         <DataList
           id="target-lang"
           object={languages}
           style={InputRight}
-          defaultValue="English"
+          defaultValue="Inglês"
         />
       </Flex>
       <Flex style={TranslationFlexStyle}>

@@ -3,9 +3,16 @@ import React from 'react'
 import { Flex } from 'components/Flex'
 import { Input } from 'components/Input'
 
+interface Language {
+  name: string
+  code: string
+  native_name: string
+  en_name: string
+}
+
 interface Props {
   id: string
-  object: object
+  object: Array<Language>
   style?: object
   defaultValue?: string
 }
@@ -19,20 +26,13 @@ export const DataList: React.FC<Props> = props => {
         style={props.style}
         list={props.id}
         defaultValue={props.defaultValue}
+        onInput={console.log}
       />
-      {Array.isArray(props.object) ? (
-        <datalist id={props.id}>
-          {props.object.map((value, i) => {
-            return <option value={value} key={i}></option>
-          })}
-        </datalist>
-      ) : (
-        <datalist id={props.id}>
-          {Object.keys(props.object).map((value, i) => {
-            return <option value={value} key={i}></option>
-          })}
-        </datalist>
-      )}
+      <datalist id={props.id}>
+        {props.object.map((lang, i) => {
+          return <option value={lang.name} key={i}></option>
+        })}
+      </datalist>
     </Flex>
   )
 }
